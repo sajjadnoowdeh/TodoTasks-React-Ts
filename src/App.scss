@@ -1,0 +1,30 @@
+$font_Robrto: "Roboto", sans-serif;
+$bg-info:#6200EA;
+body{
+    font-family: $font_Robrto !important;
+}
+svg{
+    cursor: pointer;
+}
+
+header{
+    background-color: $bg-info;
+    .header-input{
+        background-color: transparent;
+        &::placeholder{
+            color: rgb(199, 193, 193);
+        }
+        &:focus{
+            background-color: transparent !important;
+            border: 2px solid white;
+            color: white;
+        }
+    }
+}
+form{
+    position:relative;
+}
+.header-Isearch{
+    position: absolute;
+    right: 21px;
+}
