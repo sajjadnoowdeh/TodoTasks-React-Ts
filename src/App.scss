@@ -16,9 +16,18 @@ svg{
     top: 0;
     opacity: 0;
     display: none;
-    transition: all 0.2s ease;
+  animation: handleAnimte 0.4s ease 0.7s;
 }
 .show-box{
     opacity: 0.5;
     display: block;
+    animation: handleAnimte 0.4s ease 0.7s;
+}
+@keyframes handleAnimte {
+    0%{
+        transition: all 0.4s ease;
+    }
+    100%{
+        transition: all 0.7s ease;
+    }
 }
