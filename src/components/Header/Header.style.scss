@@ -1,0 +1,31 @@
+$bg-info:#6200EA;
+header{
+    background-color: $bg-info;
+    .header-input{
+        background-color: transparent;
+        &::placeholder{
+            color: rgb(199, 193, 193);
+        }
+        &:focus{
+            background-color: transparent !important;
+            border: 2px solid white;
+            color: white;
+        }
+    }
+}
+form{
+    position:relative;
+}
+.header-Isearch{
+    position: absolute;
+    right: 21px;
+}
+
+.show-sidebar{
+    transform: translateX(0) !important;
+}
+
+.show-box{
+    opacity: 0.5;
+    display: block;
+}

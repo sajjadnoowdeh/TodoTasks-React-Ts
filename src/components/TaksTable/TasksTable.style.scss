@@ -1,0 +1,28 @@
+.table{
+    border-bottom:1px solid rgb(222, 226, 230);
+}
+
+.table thead th {
+    vertical-align: bottom;
+     border-bottom: 0 !important; 
+     font-size: 13px;
+     cursor: pointer;
+}
+.table thead th:not(:nth-child(1)),.table td:not(:nth-child(1)) {
+   text-align:center
+}
+
+.badge-doing.badge-secondary {
+    color: #fff;
+    background-color: #f0962f !important;
+}
+.badge-date.badge-danger {
+    background-color: white !important;
+    color: #dc3545;
+    border: 1px solid #dc3545 !important;
+}
+.badge-date.badge-success {
+    background-color: white !important;
+    color: #43a11e;
+    border: 1px solid #43a11e !important;
+}

@@ -1,0 +1,46 @@
+.sidebar-filter{
+    width: 20rem;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    box-shadow: 10px 5px 10px 3px;
+    transform: translateX(100%);
+    transition: all 0.2s linear;
+}
+.section-filter{
+    height: 10rem;
+}
+.select-filters{
+    position: relative;
+    padding: 10px;
+}
+.label-filters-priority{
+    position: absolute;
+    right: 250px;
+    top: 96px;
+    z-index: 4;
+    font-size: 12px;
+    background: white;
+    padding: 0 5px;
+}
+.label-filters-status{
+    @extend .label-filters-priority;
+    top: 153px
+}
+.label-filters-deadline{
+    @extend .label-filters-priority;
+    top: 214px;
+    right: 244px;
+}
+
+.filter-icon{
+    background: blue;
+    border-radius: 50%;
+    width: 43px;
+    height: 43px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
