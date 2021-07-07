@@ -16,8 +16,6 @@ const TaksTable:React.FC<ITasksTable> = ({tasksItems}):JSX.Element => {
     setTaskFind(TasksData.find(item => item.id === id))
     setShow(true)
   }
-  // console.log(tasksItems);
-  
     return (
         <Table hover>
         <thead>

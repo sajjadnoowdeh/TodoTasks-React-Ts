@@ -21,6 +21,7 @@ interface IHeader{
      let sectoinFilter =  document.querySelector(".sidebar-filter") as HTMLElement;
      let boxShadow = document.querySelector(".box-shadow") as HTMLElement
       sectoinFilter.classList.add("show-sidebar")
+      document.body.classList.add("overflowHidden")
       boxShadow.classList.add("show-box")
     }
   
@@ -40,8 +41,7 @@ interface IHeader{
       } 
        
     }, [currentValue])
-
-    
+ 
     return (
         <header className="py-2 text-white">
         <Container fluid className='d-flex justify-content-between align-items-center'>
@@ -64,9 +64,9 @@ interface IHeader{
              />
           </div>
           <TasksModal 
-          title={"New Task"} 
-           onHide={handleClose} 
-           show={show}
+            title={"New Task"} 
+            onHide={handleClose} 
+            show={show}
      
            />
           
