@@ -1,25 +1,27 @@
-import React from "react";
-import { useEffect } from "react"; 
+import React,{useEffect} from "react";
 import "./App.scss";
-import { Container, Row, Badge, Table } from "react-bootstrap";
-import { BsFillEyeFill, BsFunnel } from "react-icons/bs";
-import { MdVisibility,MdDelete ,MdModeEdit} from "react-icons/md";
-import { Header,TaksTable,Sidebar ,TasksModal} from "./components";
+import { Header,TaksTable,Sidebar} from "./components";
+import TasksData from "./TasksData/TasksData";
+import { ITaskItem } from "./interface";
 function App() {
- 
+  const [tasksItems,setTasksItems] = React.useState<ITaskItem[]>(TasksData)
+
+
   const hideSidebar = (e:React.MouseEvent<HTMLElement>) =>{
     let sectoinFilter =  document.querySelector(".sidebar-filter") as HTMLElement;
     sectoinFilter.classList.remove("show-sidebar")
     e.currentTarget.classList.remove("show-box")
   }
-
+  useEffect(() => {
+    console.log(tasksItems);
+    
+}, [tasksItems])
   return (
     <>
-      <Header />
-      <TaksTable />
+      <Header setTasksItems={setTasksItems} tasksItems={tasksItems}/>
+      <TaksTable tasksItems={tasksItems}/>
       <Sidebar />
       <div className="box-shadow" onClick={(e)=>hideSidebar(e)}></div>
-    
     </>
 
   );
