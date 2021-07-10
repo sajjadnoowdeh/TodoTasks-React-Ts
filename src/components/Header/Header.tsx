@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react'
-import { BsListCheck,BsSearch,BsFunnel } from "react-icons/bs";
+import { BsListCheck,BsSearch,BsFunnel, BsChevronDoubleLeft } from "react-icons/bs";
 import { FaPen } from "react-icons/fa";
 import { Container ,Form,Button,FormControl} from "react-bootstrap";
 import TasksModal  from '../TasksModal/TasksModal';
@@ -41,6 +41,9 @@ interface IHeader{
       } 
        
     }, [currentValue])
+
+
+ 
  
     return (
         <header className="py-2 text-white">

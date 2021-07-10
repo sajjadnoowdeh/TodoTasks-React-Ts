@@ -17,7 +17,7 @@ function App() {
   return (
     <>
       <Header setTasksItems={setTasksItems} tasksItems={tasksItems}/>
-      <TaksTable tasksItems={tasksItems}/>
+      <TaksTable setTasksItems={setTasksItems} tasksItems={tasksItems}/>
       <Sidebar setTasksItems={setTasksItems} tasksItems={tasksItems}/>
       <div className="box-shadow" onClick={(e)=>hideSidebar(e)}></div>
     </>
