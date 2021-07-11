@@ -35,7 +35,7 @@ interface IHeader{
       useEffect(() => {
        let reg_task = new RegExp(`^${currentValue}`,"gi");
       if(currentValue.length > 0) {
-        setTasksItems(TasksData.filter((item)=> item.task.match(reg_task) || item.lastTask.match(currentValue)))
+        setTasksItems(tasksItems.filter((item)=> item.task.match(reg_task) || item?.lastTask?.match(currentValue)))
       }else{
          setTasksItems(TasksData)
       } 
@@ -70,7 +70,8 @@ interface IHeader{
             title={"New Task"} 
             onHide={handleClose} 
             show={show}
-     
+            setTasksItems={setTasksItems}
+            tasksItems={tasksItems}
            />
           
         </Container>

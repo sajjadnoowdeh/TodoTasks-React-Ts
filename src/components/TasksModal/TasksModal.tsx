@@ -1,16 +1,45 @@
-import React,{useState} from "react";
+import React,{useEffect} from "react";
 import { Button, Modal, Form, Col } from "react-bootstrap";
 import DatePicker from "react-datepicker"
+import TasksData from "../../TasksData/TasksData";
 import "react-datepicker/dist/react-datepicker.css"
 import {ITaskItem} from "../../interface"
 interface ITasksModal {
-  onHide: Function;
-  show: boolean;
+  onHide: Function
+  show: boolean
   title:string
   taskItem?:ITaskItem | undefined 
+  setTasksItems?:Function 
+  tasksItems?:ITaskItem[]  
 }
-const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem}):JSX.Element => {
-  const [datapicker,setDataPicker] = React.useState<any>()
+const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,setTasksItems,tasksItems}):JSX.Element => {
+  const [datapicker,setDataPicker] = React.useState<any>();
+  const [currentValue,setCurrentValue] = React.useState<string>("")
+  const [itemTask,setItemTask] = React.useState<any>();
+  const [name,setName] = React.useState<string>("")
+  const addTask = (e:any)=>{
+    let elementTask = e.target as HTMLInputElement;
+    setCurrentValue(elementTask.value);
+     setName(e.target.name)
+  }
+  
+  useEffect(() => {
+    let date = new Date(datapicker);
+     setItemTask({...itemTask,[name]:currentValue,deadline:date.toLocaleDateString('en-ZA')})
+
+  }, [name,currentValue,datapicker])
+   useEffect(() => {
+    (itemTask)&& Object.keys(itemTask).forEach((k) => itemTask[k] == "" && delete itemTask[k] || itemTask[k] == undefined&& delete itemTask[k])
+     console.log(itemTask)
+  }, [itemTask])
+  
+  const addTaskItem = (id:number,task:string,priority:string,status:string,deadline:string,detalis:string)=>{
+  (tasksItems && setTasksItems)&&  setTasksItems([...tasksItems,{id:id,task:task,priority:priority,status:status,deadline:deadline,detalis:detalis}]);
+  }
+  const handleAddTask = ()=>{
+    addTaskItem(Date.now(),itemTask.task,itemTask.priority,itemTask.status,itemTask.deadline,itemTask.detalis)
+  }
+
   return (
     <>
       <Modal show={show} onHide={onHide}>
@@ -21,14 +50,21 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem}):J
           <Form>
             <Form.Row>
               <Form.Group as={Col} controlId="formGridAddress1">
-                <Form.Control defaultValue={taskItem?.task} placeholder={"New Task"} />
+                <Form.Control name="task" defaultValue={taskItem?.task} placeholder={"New Task"}
+                   onChange={addTask}
+                />
               </Form.Group>
             </Form.Row>
 
             <Form.Row className="my-4">
               <Form.Group as={Col} controlId="formGridState">
           
-                <Form.Control defaultValue={taskItem?.priority} as="select" name="priority">
+                <Form.Control 
+                    defaultValue={taskItem?.priority}
+                    as="select"
+                    name="priority"
+                    onChange={addTask}
+                    >
                   <option value="All">Priority</option>
                   <option value="High">High</option>
                   <option value="Medium">Meduim</option>
@@ -36,7 +72,12 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem}):J
                 </Form.Control>
               </Form.Group>
               <Form.Group    as={Col} controlId="formGridState">
-                <Form.Control  defaultValue={taskItem?.status} as="select" name="status">
+                <Form.Control  
+                    defaultValue={taskItem?.status}
+                    as="select"
+                    name="status"
+                    onChange={addTask}
+                    >
                   <option value="All">Status</option>
                   <option value="Todo">To do</option>
                   <option value="Doing">Doing </option>
@@ -46,20 +87,23 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem}):J
 
               <Form.Group as={Col} controlId="formGridZip">
                 <DatePicker
+                    name="deadline"
                     dateFormat="yyyy/MM/dd"
                     className="form-control"
                     value={taskItem?.deadline}
                     placeholderText={"DealLine"}
                     selected={datapicker}
-                    onChange={(date)=>setDataPicker(date)} />
+                    onChange={(date,e)=>{setDataPicker(date); addTask(e)}} />
               </Form.Group>
             </Form.Row>
             <Form.Group controlId="exampleForm.ControlTextarea1">
               <Form.Control
+                name="detalis"
                 defaultValue={taskItem?.detalis}
                 as="textarea"
                 placeholder={"Tasks Detalis(optional) "}
                 rows={5}
+                onChange={(e)=>addTask(e)}
               />
             </Form.Group>
           </Form>
@@ -74,14 +118,14 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem}):J
           >
             CANCEL
           </Button>
-          <Button variant="primary" onClick={() => onHide}>
+          <Button variant="primary" onClick={() =>{handleAddTask(); onHide()}}>
             SAVE
           </Button>
         </Modal.Footer>
       
     }
     </Modal>
-   
+
     </>
   );
 };

@@ -114,10 +114,31 @@ const TaksTable: React.FC<ITasksTable> = ({
     sortByDeadLine(direction);
   };
 
-  useEffect(() => {
-    console.log(currentValue);
-  }, [direction]);
+  // Remove task
+  const handleRemoveTask = (id:number | undefined)=>{
+    setTasksItems(tasksItems.filter((item)=>item.id !== id));
+  }
+
+  const ResetItems = ()=>{
+      return(
+          <div className="d-flex justify-content-center p-3 " style={{width: "187%"}}>
+                    Nothing to show 😞
+                   <a href="#" onClick={()=>setTasksItems(TasksData)}>Click here</a>  to reset.
+          </div>
+      )
+  }
+
+  
   return (
+    <>
+    <TasksModal
+        onHide={handleClose}
+        show={show}
+        title={"Veiw Task"}
+        taskItem={taskFind}
+        
+      />
+
     <Table hover>
       <thead>
         <tr>
@@ -152,25 +173,28 @@ const TaksTable: React.FC<ITasksTable> = ({
           <th className="text-muted display-7">Actions</th>
         </tr>
       </thead>
-      <tbody>
-        {tasksItems.map((item, index) => (
+      <tbody style={tasksItems.length === 0 ? {borderTop: "1px solid #dee2e6" }: {border:"0"}}>
+        {
+        
+        (tasksItems.length === 0)?
+        <ResetItems /> :
+        tasksItems.map((item, index) => (
           <TaskItem
             key={index}
             task={item.task}
             priority={item.priority}
             status={item.status}
             deadline={item.deadline}
+            setTasksItems={setTasksItems}
             handleShowID={() => handleShow(item.id)}
+            handleRemoveTask={()=>handleRemoveTask(item.id)}
           />
         ))}
       </tbody>
-      <TasksModal
-        onHide={handleClose}
-        show={show}
-        title={"Veiw Task"}
-        taskItem={taskFind}
-      />
+
+      
     </Table>
+    </>
   );
 };
 
