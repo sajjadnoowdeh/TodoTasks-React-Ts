@@ -36,8 +36,7 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,set
   }, [name,currentValue,datapicker])
    useEffect(() => {
     (itemTask)&& Object.keys(itemTask).forEach((k) => itemTask[k] == "" && delete itemTask[k] || itemTask[k] == undefined&& delete itemTask[k]);
-    //  console.log(itemTask)
-
+    (itemTask)&&  Object.keys(itemTask).forEach((k) => itemTask[k] == "Invalid Date" && delete itemTask[k]);
   }, [itemTask])
   
   const addTaskItem = (id:number,task:string,priority:string,status:string,deadline:string,detalis:string)=>{
@@ -53,10 +52,10 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,set
     
   }
 
-  // useEffect(()=>{
-  //   console.log("tasks",tasks);
+  useEffect(()=>{
+    console.log("itemTask",itemTask);
     
-  // },[tasks])
+  },[itemTask])
 
   return (
     <>
