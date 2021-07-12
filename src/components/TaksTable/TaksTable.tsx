@@ -23,8 +23,12 @@ const TaksTable: React.FC<ITasksTable> = ({
   const [direction, setdirection] = React.useState<any>();
   const [currentValue, setCurrrentValue] = React.useState<string>("");
   const handleClose = () => setShow(false);
+  const [flagEdit,setFlagEdit] = React.useState<boolean>(true)
+  const [editID,setEditID] = React.useState<number>();
+  const [getTaskSingle,setTaskSingle] = React.useState<any>()
+  const [tasks,setTasks] = React.useState<ITaskItem[]>()
   const handleShow = (id: number | undefined) => {
-    setTaskFind(TasksData.find((item) => item.id === id));
+    setTaskFind(tasksItems.find((item) => item.id === id));
     setShow(true);
   };
 
@@ -128,16 +132,21 @@ const TaksTable: React.FC<ITasksTable> = ({
       )
   }
 
+
+  const handleEditTask = (id:number | undefined)=>{
+    setEditID(id)
+  }
   
+  useEffect(()=>{
+    setTasks(tasksItems)
+  },tasksItems)
+
+  useEffect(()=>{
+  (getTaskSingle) &&  setTasksItems(getTaskSingle);
+  },[getTaskSingle])
+
   return (
     <>
-    <TasksModal
-        onHide={handleClose}
-        show={show}
-        title={"Veiw Task"}
-        taskItem={taskFind}
-        
-      />
 
     <Table hover>
       <thead>
@@ -186,12 +195,25 @@ const TaksTable: React.FC<ITasksTable> = ({
             status={item.status}
             deadline={item.deadline}
             setTasksItems={setTasksItems}
+            setFlagEdit={setFlagEdit}
             handleShowID={() => handleShow(item.id)}
             handleRemoveTask={()=>handleRemoveTask(item.id)}
+            handleEditTask={()=>handleEditTask(item.id)}
           />
+         
         ))}
       </tbody>
+      <TasksModal
+        onHide={handleClose}
+        show={show}
+        title={(flagEdit)? "Edit Task" : "Veiw Task"}
+        taskItem={taskFind}
+        editID={editID}
+        tasks={tasks}
+        setTasks={setTasksItems}
+        setTaskSingle={setTaskSingle}
 
+      />
       
     </Table>
     </>

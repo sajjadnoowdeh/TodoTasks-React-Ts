@@ -11,26 +11,33 @@ interface ITasksModal {
   taskItem?:ITaskItem | undefined 
   setTasksItems?:Function 
   tasksItems?:ITaskItem[]  
+  flagEdit?:boolean
+  editID?:number | undefined
+  setTaskSingle?:any
+  tasks?:ITaskItem[]
+  setTasks?:Function
 }
-const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,setTasksItems,tasksItems}):JSX.Element => {
+const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,setTasksItems,tasksItems,editID,setTaskSingle,tasks,setTasks}):JSX.Element => {
   const [datapicker,setDataPicker] = React.useState<any>();
   const [currentValue,setCurrentValue] = React.useState<string>("")
   const [itemTask,setItemTask] = React.useState<any>();
   const [name,setName] = React.useState<string>("")
+  
   const addTask = (e:any)=>{
     let elementTask = e.target as HTMLInputElement;
     setCurrentValue(elementTask.value);
      setName(e.target.name)
+     
   }
   
   useEffect(() => {
     let date = new Date(datapicker);
-     setItemTask({...itemTask,[name]:currentValue,deadline:date.toLocaleDateString('en-ZA')})
-
+    setItemTask({...itemTask,[name]:currentValue,deadline:date.toLocaleDateString('en-ZA')})
   }, [name,currentValue,datapicker])
    useEffect(() => {
-    (itemTask)&& Object.keys(itemTask).forEach((k) => itemTask[k] == "" && delete itemTask[k] || itemTask[k] == undefined&& delete itemTask[k])
-     console.log(itemTask)
+    (itemTask)&& Object.keys(itemTask).forEach((k) => itemTask[k] == "" && delete itemTask[k] || itemTask[k] == undefined&& delete itemTask[k]);
+    //  console.log(itemTask)
+
   }, [itemTask])
   
   const addTaskItem = (id:number,task:string,priority:string,status:string,deadline:string,detalis:string)=>{
@@ -39,6 +46,17 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,set
   const handleAddTask = ()=>{
     addTaskItem(Date.now(),itemTask.task,itemTask.priority,itemTask.status,itemTask.deadline,itemTask.detalis)
   }
+
+  const handleEditTask =()=>{
+   console.log("itemTask",itemTask);
+   (itemTask && tasks)&& setTaskSingle(tasks.map((item)=>item.id === editID ? {...item,...itemTask} :item ))
+    
+  }
+
+  // useEffect(()=>{
+  //   console.log("tasks",tasks);
+    
+  // },[tasks])
 
   return (
     <>
@@ -65,7 +83,7 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,set
                     name="priority"
                     onChange={addTask}
                     >
-                  <option value="All">Priority</option>
+                  {/* <option value="All">Priority</option> */}
                   <option value="High">High</option>
                   <option value="Medium">Meduim</option>
                   <option value="Low">Low</option>
@@ -78,7 +96,7 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,set
                     name="status"
                     onChange={addTask}
                     >
-                  <option value="All">Status</option>
+                  {/* <option value="All">Status</option> */}
                   <option value="Todo">To do</option>
                   <option value="Doing">Doing </option>
                   <option value="Done">Done </option>
@@ -109,20 +127,21 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,set
           </Form>
         </Modal.Body>
         {
-          (taskItem) ? null :
+          (title === "Edit Task") ?
           <Modal.Footer className="d-flex justify-content-between border-0">
           <Button
             variant="secondary"
-            onClick={() => onHide}
+            onClick={() => onHide()}
             className="bg-transparent text-primary border-0"
           >
             CANCEL
           </Button>
-          <Button variant="primary" onClick={() =>{handleAddTask(); onHide()}}>
+          <Button variant="primary" onClick={() =>{handleEditTask(); handleAddTask(); onHide()}}>
             SAVE
           </Button>
         </Modal.Footer>
-      
+       :
+       null
     }
     </Modal>
 

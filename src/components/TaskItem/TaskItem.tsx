@@ -13,6 +13,8 @@ export interface ITaskItem{
   handleShowID:Function
   setTasksItems:Function
   handleRemoveTask:Function
+  handleEditTask:Function
+  setFlagEdit:Function
 }
 const TaskItem: React.FC<ITaskItem> = ({
   task = "",
@@ -21,8 +23,9 @@ const TaskItem: React.FC<ITaskItem> = ({
   deadline = "",
   handleShowID=Function,
   setTasksItems,
-  handleRemoveTask
-  
+  handleRemoveTask,
+  handleEditTask,
+  setFlagEdit
 }) => {
     const [show, setShow] = React.useState<boolean>(false);
     const handleClose = () => setShow(false);
@@ -79,7 +82,7 @@ const TaskItem: React.FC<ITaskItem> = ({
           </Badge>{" "}
         </td>
         <td className="text-muted">
-          <MdVisibility onClick={()=> handleShowID()} /> <MdModeEdit className="mx-2" />{" "}
+          <MdVisibility onClick={()=> {handleShowID(); setFlagEdit(false)}} /> <MdModeEdit  onClick={()=> {handleShowID(); setFlagEdit(true);handleEditTask()}} className="mx-2" />{" "}
           <MdDelete onClick={handleShow} />
         </td>
       </tr>
