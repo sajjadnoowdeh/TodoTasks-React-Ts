@@ -83,7 +83,7 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,set
                     name="priority"
                     onChange={addTask}
                     >
-                  {/* <option value="All">Priority</option> */}
+                  {(title === "New Task") &&  <option value="All">Priority</option> }
                   <option value="High">High</option>
                   <option value="Medium">Meduim</option>
                   <option value="Low">Low</option>
@@ -96,7 +96,7 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,set
                     name="status"
                     onChange={addTask}
                     >
-                  {/* <option value="All">Status</option> */}
+                  {(title === "New Task") &&  <option value="All">Status</option> }
                   <option value="Todo">To do</option>
                   <option value="Doing">Doing </option>
                   <option value="Done">Done </option>
@@ -108,7 +108,7 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,set
                     name="deadline"
                     dateFormat="yyyy/MM/dd"
                     className="form-control"
-                    value={taskItem?.deadline}
+                    value={(title === "New Task") ? "" : taskItem?.deadline}
                     placeholderText={"DealLine"}
                     selected={datapicker}
                     onChange={(date,e)=>{setDataPicker(date); addTask(e)}} />
@@ -127,7 +127,7 @@ const TasksModal: React.FC<ITasksModal> = ({ onHide, show ,title="",taskItem,set
           </Form>
         </Modal.Body>
         {
-          (title === "Edit Task") ?
+          (title === "Edit Task" || title === "New Task") ?
           <Modal.Footer className="d-flex justify-content-between border-0">
           <Button
             variant="secondary"
